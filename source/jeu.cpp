@@ -7,7 +7,7 @@ jeu::jeu(char jeton)
     this->jeton = jeton;
 }
 
-void jeu::placer_jeton(int colonne)
+int jeu::placer_jeton(int colonne)
 {
     // Vérifier si la colonne est valide
     if (colonne < 0 || colonne > 6)
@@ -27,7 +27,7 @@ void jeu::placer_jeton(int colonne)
         if (grille[i][colonne] == '*')
         {
             grille[i][colonne] = jeton;
-            break;
+            return i; // retourne range de l'endroit place
         }
     }
 }
@@ -41,4 +41,77 @@ void jeu::afficher_grille(){
         std::cout << std::endl;
     }
 
+}
+
+char jeu::verifier(int colonne, int range){
+
+    // Verifie si un quelqun a gagner.
+    char jeton = '*';
+    int count;
+
+    // Verifie les range
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 7; j++) {
+            if (jeton == grille[i][j] && jeton != '*'){
+                count++;
+                if (count >= 4){
+                    return jeton;
+                }
+            } else 
+            {
+                count = 0;
+                jeton = grille[i][j];
+
+            }
+        }
+    }
+
+    // renitialise le compteur et le jeton.
+    char jeton = '*';
+    int count; 
+    //Verifie les colonnes
+    for (int i = 0; i < 7; i++) {
+        for (int j = 0; j < 6; j++) {
+            if (jeton == grille[i][j] && jeton != '*'){
+                count++;
+                if (count >= 4){
+                    return jeton;
+                }
+            }  else 
+            {
+                count = 0;
+                jeton = grille[i][j];
+
+            }
+        }
+    }
+
+    // renitialise le compteur et le jeton.
+    char jeton = '*';
+    int count = 0; 
+    //Verifie les diagonales (en bas a gauche vers en haut a droite)
+    for (int i = 3; i < 6; i++ ){
+        for (int j = 0; j < 4; j++)
+        {
+            jeton = grille[i][j];
+            if (jeton == grille[i+1][j+1] && jeton == grille[i+2][j+2] && jeton == grille[i+3][j+3] && jeton != '*') {
+                return jeton;
+            }
+        }
+    }
+
+    //Verifie les diagonales (en bas a gauche vers en haut a droite)
+    for (int i = 2; i < 0; i-- ){
+        for (int j = 0; j < 4; j++)
+        {
+            jeton = grille[i][j];
+            if (jeton == grille[i-1][j+1] && jeton == grille[i-2][j+2] && jeton == grille[i-3][j+3] && jeton != '*') {
+                return jeton;
+            }
+        }
+    }
+
+    
+
+    
 }

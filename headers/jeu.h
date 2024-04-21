@@ -21,8 +21,8 @@ public:
     void afficher_grille();
 
     // Place un jeton dans la colonne choisie
-    void placer_jeton(int colonne);
+    int placer_jeton(int colonne);
 
     // Vérifie si un joueur a gagné ou si la grille est pleine
-    bool verifier();
+    char verifier(int colonne, int range);
 };
