@@ -63,8 +63,8 @@ char jeu::verifier(int colonne, int range){
     }
 
     //Verifie les colonnes
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 7; j++) {
+    for (int j = 0; j < 7; j++) {
+        for (int i = 0; i < 2; i++) {
             jeton = grille[i][j]; 
             if (jeton == grille[i + 1][j] && jeton == grille[i + 2][j] && jeton == grille[i + 3][j] && jeton != '*') {
                 return jeton;
