@@ -55,11 +55,10 @@ char jeu::verifier(int colonne, int range){
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < 3; j++) {
             jeton = grille[i][j]; 
-            for (int k = 0; k < 4; k++){
-                if (jeton == grille[i][j + k] && jeton == grille[i][j + k] && jeton == grille[i][j + k] && jeton != '*') {
-                    return jeton;
-                }
+            if (jeton == grille[i][j + 1] && jeton == grille[i][j + 2] && jeton == grille[i][j + 3] && jeton != '*') {
+                return jeton;
             }
+            
         }
     }
 
@@ -67,11 +66,10 @@ char jeu::verifier(int colonne, int range){
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 7; j++) {
             jeton = grille[i][j]; 
-            for (int k = 0; k < 4; k++){
-                if (jeton == grille[i + k][j] && jeton == grille[i + k][j] && jeton == grille[i + k][j] && jeton != '*') {
-                    return jeton;
-                }
+            if (jeton == grille[i + 1][j] && jeton == grille[i + 2][j] && jeton == grille[i + 3][j] && jeton != '*') {
+                return jeton;
             }
+            
         }
     }
 
