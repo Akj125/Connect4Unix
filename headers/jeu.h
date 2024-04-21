@@ -24,4 +24,6 @@ public:
 
     // Vérifie si un joueur a gagné ou si la grille est pleine
     char verifier(int colonne, int range);
+
+    int etats_du_jeu();
 };
