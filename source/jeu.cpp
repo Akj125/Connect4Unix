@@ -14,7 +14,7 @@ jeu::jeu()
 int jeu::placer_jeton(int colonne, char jeton)
 {
     // Vérifier si la colonne est valide
-    if (colonne < 0 || colonne > 6)
+    if (colonne < 0 || colonne > 7)
     {
         throw colonneInvalideException();
     }
@@ -56,6 +56,7 @@ char jeu::verifier(int colonne, int range){
         for (int j = 0; j < 3; j++) {
             jeton = grille[i][j]; 
             if (jeton == grille[i][j + 1] && jeton == grille[i][j + 2] && jeton == grille[i][j + 3] && jeton != '*') {
+                std::cout << i << j << " : " << i << j+3 << std::endl;
                 return jeton;
             }
             
@@ -64,9 +65,10 @@ char jeu::verifier(int colonne, int range){
 
     //Verifie les colonnes
     for (int j = 0; j < 7; j++) {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             jeton = grille[i][j]; 
             if (jeton == grille[i + 1][j] && jeton == grille[i + 2][j] && jeton == grille[i + 3][j] && jeton != '*') {
+                std::cout << i << j << " : " << i+3 << j << std::endl;
                 return jeton;
             }
             
@@ -78,18 +80,18 @@ char jeu::verifier(int colonne, int range){
         for (int j = 0; j < 4; j++)
         {
             jeton = grille[i][j];
-            if (jeton == grille[i+1][j+1] && jeton == grille[i+2][j+2] && jeton == grille[i+3][j+3] && jeton != '*') {
+            if (jeton == grille[i-1][j+1] && jeton == grille[i-2][j+2] && jeton == grille[i-3][j+3] && jeton != '*') {
                 return jeton;
             }
         }
     }
 
-    //Verifie les diagonales (en bas a gauche vers en haut a droite)
-    for (int i = 2; i < 0; i-- ){
+    //Verifie les diagonales (en haut a gauche vers en bas a droite)
+    for (int i = 0; i < 3; i++ ){
         for (int j = 0; j < 4; j++)
         {
             jeton = grille[i][j];
-            if (jeton == grille[i-1][j+1] && jeton == grille[i-2][j+2] && jeton == grille[i-3][j+3] && jeton != '*') {
+            if (jeton == grille[i+1][j+1] && jeton == grille[i+2][j+2] && jeton == grille[i+3][j+3] && jeton != '*')  {
                 return jeton;
             }
         }
