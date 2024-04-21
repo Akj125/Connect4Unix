@@ -9,7 +9,10 @@ class jeu
 {
 private:
     // La grille de jeu 6 x 7
-    std::array<std::array<char, 7>, 6> grille;
+    // '*' représente une case vide
+    // 'X' représente un jeton du joueur
+    // 'O' représente un jeton de l'ordinateur
+    std::array<std::array<char, 7>, 6> grille = {'*'};
     char jeton;
 public:
     jeu(char jeton);
