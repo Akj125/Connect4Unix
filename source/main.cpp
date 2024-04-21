@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <iostream>
-#include "headers/jeu.h"
+#include "../headers/jeu.h"
 
 /*
 Connect 4

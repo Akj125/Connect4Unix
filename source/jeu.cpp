@@ -1,4 +1,4 @@
-#include "headers/jeu.h"
+#include "../headers/jeu.h"
 #include <iostream>
 
 jeu::jeu(char jeton)
