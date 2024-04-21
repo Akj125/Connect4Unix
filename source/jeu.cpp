@@ -49,50 +49,32 @@ void jeu::afficher_grille(){
 
 char jeu::verifier(int colonne, int range){
 
-    // Verifie si un quelqun a gagner.
-    char jeton = '*';
-    int count;
+    char jeton;
 
     // Verifie les range
     for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < 7; j++) {
-            if (jeton == grille[i][j] && jeton != '*'){
-                count++;
-                if (count >= 3){
+        for (int j = 0; j < 3; j++) {
+            jeton = grille[i][j]; 
+            for (int k = 0; k < 4; k++){
+                if (jeton == grille[i][j + k] && jeton == grille[i][j + k] && jeton == grille[i][j + k] && jeton != '*') {
                     return jeton;
                 }
-            } else 
-            {
-                count = 0;
-                jeton = grille[i][j];
-
             }
         }
     }
 
-    // renitialise le compteur et le jeton.
-    jeton = '*';
-    count; 
     //Verifie les colonnes
-    for (int i = 0; i < 7; i++) {
-        for (int j = 0; j < 6; j++) {
-            if (jeton == grille[i][j] && jeton != '*'){
-                count++;
-                if (count >= 3){
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 7; j++) {
+            jeton = grille[i][j]; 
+            for (int k = 0; k < 4; k++){
+                if (jeton == grille[i + k][j] && jeton == grille[i + k][j] && jeton == grille[i + k][j] && jeton != '*') {
                     return jeton;
                 }
-            }  else 
-            {
-                count = 0;
-                jeton = grille[i][j];
-
             }
         }
     }
 
-    // renitialise le compteur et le jeton.
-    jeton = '*';
-    count = 0; 
     //Verifie les diagonales (en bas a gauche vers en haut a droite)
     for (int i = 3; i < 6; i++ ){
         for (int j = 0; j < 4; j++)
