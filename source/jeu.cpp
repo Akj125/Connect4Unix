@@ -2,12 +2,16 @@
 #include <../headers/exceptionsJeu.h>
 #include <iostream>
 
-jeu::jeu(char jeton)
+jeu::jeu()
 {
-    this->jeton = jeton;
+    for(int i = 0; i < 7; i++) {
+        for(int j = 0; j < 6; j++) {
+            grille[i][j] = '*';
+        }
+    }
 }
 
-int jeu::placer_jeton(int colonne)
+int jeu::placer_jeton(int colonne, char jeton)
 {
     // Vérifier si la colonne est valide
     if (colonne < 0 || colonne > 6)
@@ -67,8 +71,8 @@ char jeu::verifier(int colonne, int range){
     }
 
     // renitialise le compteur et le jeton.
-    char jeton = '*';
-    int count; 
+    jeton = '*';
+    count; 
     //Verifie les colonnes
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 6; j++) {
@@ -87,8 +91,8 @@ char jeu::verifier(int colonne, int range){
     }
 
     // renitialise le compteur et le jeton.
-    char jeton = '*';
-    int count = 0; 
+    jeton = '*';
+    count = 0; 
     //Verifie les diagonales (en bas a gauche vers en haut a droite)
     for (int i = 3; i < 6; i++ ){
         for (int j = 0; j < 4; j++)

@@ -31,15 +31,19 @@ Si c'est le cas, le jeu se terminera et le joueur gagnant sera affiché.
 int main()
 {
     // Initialisation du jeu
-    int fds[2];
-    pipe(fds);
+    int fds1[2]; // Utilisateur -> Ordinateur
+    int fds2[2]; // Ordinateur -> Utilisateur
+    pipe(fds1);
+    pipe(fds2);
 
     pid_t utilisateur = fork();
     
     // L'utilisateur sera le processus principal, il prendra charge de l'affichage du jeu
     if (utilisateur == 0)
     {
-        jeu jeuUtilisateur = jeu('X');
+        jeu jeuUtilisateur;
+        close(fds1[0]);
+        close(fds2[1]);
         
 
         // Boucle partielle iniial
@@ -53,10 +57,11 @@ int main()
             // Attendre que le joueur entre un numéro de colonne
             std::cout << "Entrez le numéro de la colonne dans laquelle vous voulez placer votre jeton: ";
             std::cin >> colonne;
+            colonne--;
 
             try
             {
-                jeuUtilisateur.placer_jeton(colonne);
+                jeuUtilisateur.placer_jeton(colonne, 'X');
             }
             catch (colonneInvalideException &e)
             {
@@ -73,30 +78,31 @@ int main()
     
 
         // Envoyer la colonne choisie par le joueur à l'ordinateur
-        write(fds[1], &colonne, sizeof(colonne));
+        write(fds1[1], &colonne, sizeof(colonne));
 
 
         // Boucle de jeu
         while (true)
         {
             // Lire la colonne choisie par l'ordinateur
-            read(fds[0], &colonne, sizeof(colonne));
+            read(fds2[0], &colonne, sizeof(colonne));
             if (colonne == -1) // signal kill pour finir le jeu
             {
                 break;
             }
 
             // Placer le jeton de l'ordinateur dans la colonne choisie et obtenir la range
-            int range = jeuUtilisateur.placer_jeton(colonne);
+            int range = jeuUtilisateur.placer_jeton(colonne, 'O');
 
             // Vérifier si l'ordinateur a gagné
             if (jeuUtilisateur.verifier(colonne, range) == 'O')
             {
                 std::cout << "L'ordinateur a gagné!" << std::endl;
+                jeuUtilisateur.afficher_grille();
 
                 // Envoyer un signal kill pour terminer le jeu
                 colonne = -1;
-                write(fds[1], &colonne, sizeof(colonne));
+                write(fds1[1], &colonne, sizeof(colonne));
 
                 break;
             }
@@ -107,7 +113,7 @@ int main()
 
                 // Envoyer un signal kill pour terminer le jeu
                 colonne = -1;
-                write(fds[1], &colonne, sizeof(colonne));
+                write(fds1[1], &colonne, sizeof(colonne));
 
                 break;
             }
@@ -121,10 +127,11 @@ int main()
                 // Attendre que le joueur entre un numéro de colonne
                 std::cout << "Entrez le numéro de la colonne dans laquelle vous voulez placer votre jeton: ";
                 std::cin >> colonne;
+                colonne--;
 
                 try
                 {
-                    jeuUtilisateur.placer_jeton(colonne);
+                    jeuUtilisateur.placer_jeton(colonne, 'X');
                 }
                 catch (colonneInvalideException &e)
                 {
@@ -140,7 +147,7 @@ int main()
             }
 
             // Envoyer la colonne choisie par le joueur à l'ordinateur
-            write(fds[1], &colonne, sizeof(colonne));
+            write(fds1[1], &colonne, sizeof(colonne));
         }
 
     }
@@ -149,7 +156,7 @@ int main()
 
     if (ordinateur == 0)
     {
-        jeu jeuOrdinateur = jeu('O');
+        jeu jeuOrdinateur;
         
         // Boucle de jeu
         while (true)
@@ -157,14 +164,14 @@ int main()
             int colonne;
 
             // Lire la colonne choisie par le joueur
-            read(fds[0], &colonne, sizeof(colonne));
+            read(fds1[0], &colonne, sizeof(colonne));
             if (colonne == -1) // signal kill pour finir le jeu
             {
                 break;
             }
 
             // Placer le jeton de l'utilisateur dans la colonne choisie et obtenir la range
-            int range = jeuOrdinateur.placer_jeton(colonne);
+            int range = jeuOrdinateur.placer_jeton(colonne, 'X');
 
             char resultat = jeuOrdinateur.verifier(colonne, range);
 
@@ -172,10 +179,11 @@ int main()
             if (resultat == 'X')
             {
                 std::cout << "Vous avez gagné!" << std::endl;
+                jeuOrdinateur.afficher_grille();
 
                 // Envoyer un signal kill pour terminer le jeu
                 colonne = -1;
-                write(fds[1], &colonne, sizeof(colonne));
+                write(fds2[1], &colonne, sizeof(colonne));
 
                 break;
             }
@@ -186,25 +194,40 @@ int main()
 
                 // Envoyer un signal kill pour terminer le jeu
                 colonne = -1;
-                write(fds[1], &colonne, sizeof(colonne));
+                write(fds2[1], &colonne, sizeof(colonne));
 
                 break;
             }
 
-            // Choisir une colonne aléatoire pour placer le jeton
-            colonne = rand() % 7 + 1;
+            while (true)
+            {
+                // Choisir une colonne aléatoire pour placer le jeton
+                colonne = rand() % 7 + 1;
 
-            // Placer le jeton de l'ordinateur dans la colonne choisie et obtenir la range
-            jeuOrdinateur.placer_jeton(colonne);
+                // Placer le jeton de l'ordinateur dans la colonne choisie et obtenir la range
+                try
+                {
+                    jeuOrdinateur.placer_jeton(colonne, 'O');
+                    /* code */
+                }
+                catch(colonnePleineException &e)
+                {
+                    continue;
+                }
+                break;
+            }
+            
 
             // Envoyer la colonne choisie par l'ordinateur à l'utilisateur
-            write(fds[1], &colonne, sizeof(colonne));
+            write(fds2[1], &colonne, sizeof(colonne));
         }
     }
 
     // Fermer les descripteurs de fichiers inutilisés
-    close(fds[0]);
-    close(fds[1]);
+    close(fds1[0]);
+    close(fds1[1]);
+    close(fds2[0]);
+    close(fds2[1]);
 
     // Le père attend la fin des deux fils
     wait(NULL);

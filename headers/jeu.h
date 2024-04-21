@@ -12,16 +12,15 @@ private:
     // '*' représente une case vide
     // 'X' représente un jeton du joueur
     // 'O' représente un jeton de l'ordinateur
-    std::array<std::array<char, 7>, 6> grille = {'*'};
-    char jeton;
+    char grille[7][6];
 public:
-    jeu(char jeton);
+    jeu();
 
     // Affiche la grille de jeu
     void afficher_grille();
 
     // Place un jeton dans la colonne choisie
-    int placer_jeton(int colonne);
+    int placer_jeton(int colonne, char jeton);
 
     // Vérifie si un joueur a gagné ou si la grille est pleine
     char verifier(int colonne, int range);
