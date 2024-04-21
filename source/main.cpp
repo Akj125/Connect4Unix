@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <iostream>
-#include <../headers/exceptionsJeu.h>
+#include "../headers/exceptionsJeu.h"
 #include "../headers/jeu.h"
 
 /*

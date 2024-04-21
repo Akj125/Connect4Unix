@@ -12,7 +12,7 @@ private:
     // '*' représente une case vide
     // 'X' représente un jeton du joueur
     // 'O' représente un jeton de l'ordinateur
-    char grille[7][6];
+    char grille[6][7];
 public:
     jeu();
 
