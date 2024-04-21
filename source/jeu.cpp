@@ -34,3 +34,14 @@ void jeu::placer_jeton(int colonne)
         }
     }
 }
+
+void jeu::afficher_grille(){
+
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 7; j++) {
+            std::cout << grille[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+}
