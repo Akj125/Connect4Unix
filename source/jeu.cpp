@@ -56,7 +56,6 @@ char jeu::verifier(int colonne, int range){
         for (int j = 0; j < 3; j++) {
             jeton = grille[i][j]; 
             if (jeton == grille[i][j + 1] && jeton == grille[i][j + 2] && jeton == grille[i][j + 3] && jeton != '*') {
-                std::cout << i << j << " : " << i << j+3 << std::endl;
                 return jeton;
             }
             
@@ -68,7 +67,6 @@ char jeu::verifier(int colonne, int range){
         for (int i = 0; i < 3; i++) {
             jeton = grille[i][j]; 
             if (jeton == grille[i + 1][j] && jeton == grille[i + 2][j] && jeton == grille[i + 3][j] && jeton != '*') {
-                std::cout << i << j << " : " << i+3 << j << std::endl;
                 return jeton;
             }
             
@@ -117,7 +115,7 @@ int jeu::etats_du_jeu(){
 
     // calcule le score pour les range
     for (int i = 0; i < 6; i++) {
-        for (int j = 0; j > 3; j++) {
+        for (int j = 0; j < 3; j++) {
             int Jcount = 0;
             int Ocount = 0;
             for (int k = 0; k < 4; k++)
@@ -129,33 +127,33 @@ int jeu::etats_du_jeu(){
                 }
             } 
             if (Jcount > 0 && Ocount == 0){
-                score += Jcount * Jcount;
+                score -= Jcount * Jcount;
             } 
             else if (Ocount > 0 && Jcount == 0){
-                score -= Ocount * Ocount;
+                score += Ocount * Ocount;
             }
                 
         }
     }
 
     //Verifie les colonnes
-    for (int i = 0; i < 7; i++) {
-        for (int j = 0; j < 6; j++) {
+    for (int j = 0; j < 7; j++) {
+        for (int i = 0; i < 3; i++) {
             int Jcount = 0;
             int Ocount = 0;
             for (int k = 0; k < 4; k++)
             {
-                if (grille[i][j + k] == 'X') {
+                if (grille[i + k][j] == 'X') {
                     Jcount++;
-                } else if (grille[i][j + k] != 'O') {
+                } else if (grille[i + k][j] != 'O') {
                     Ocount++;
                 }
             }
             if (Jcount > 0 && Ocount == 0){
-                score += Jcount * Jcount;
+                score -= Jcount * Jcount;
             } 
             else if (Ocount > 0 && Jcount == 0){
-                score -= Ocount * Ocount;
+                score += Ocount * Ocount;
             }
                 
         }
@@ -163,28 +161,53 @@ int jeu::etats_du_jeu(){
     
 
     // renitialise le compteur et le jeton.
-    char jeton = '*';
-    int count = 0; 
+    char jeton;
+
     //Verifie les diagonales (en bas a gauche vers en haut a droite)
     for (int i = 3; i < 6; i++ ){
         for (int j = 0; j < 4; j++)
         {
-            jeton = grille[i][j];
-            if (jeton == grille[i+1][j+1] && jeton == grille[i+2][j+2] && jeton == grille[i+3][j+3] && jeton != '*') {
-                return jeton;
+            int Jcount = 0;
+            int Ocount = 0;
+            for (int k = 0; k < 4; k++)
+            {
+                if (grille[i - k][j + k] == 'X') {
+                    Jcount++;
+                } else if (grille[i - k][j + k] != 'O') {
+                    Ocount++;
+                }
+            }
+            if (Jcount > 0 && Ocount == 0){
+                score -= Jcount * Jcount;
+            } 
+            else if (Ocount > 0 && Jcount == 0){
+                score += Ocount * Ocount;
             }
         }
     }
 
-    //Verifie les diagonales (en bas a gauche vers en haut a droite)
-    for (int i = 2; i < 0; i-- ){
+    //Verifie les diagonales (en haut a gauche vers en bas a droite)
+    for (int i = 0; i < 3; i++ ){
         for (int j = 0; j < 4; j++)
         {
-            jeton = grille[i][j];
-            if (jeton == grille[i-1][j+1] && jeton == grille[i-2][j+2] && jeton == grille[i-3][j+3] && jeton != '*') {
-                return jeton;
+            int Jcount = 0;
+            int Ocount = 0;
+            for (int k = 0; k < 4; k++)
+            {
+                if (grille[i + k][j + k] == 'X') {
+                    Jcount++;
+                } else if (grille[i + k][j + k] != 'O') {
+                    Ocount++;
+                }
+            }
+            if (Jcount > 0 && Ocount == 0){
+                score -= Jcount * Jcount;
+            } 
+            else if (Ocount > 0 && Jcount == 0){
+                score += Ocount * Ocount;
             }
         }
-    }  
-
+    }
+    return score;
 }
+
