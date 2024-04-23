@@ -47,6 +47,7 @@ else if (resultat == 'O')
 ```
 
 ## Détection de fin de parties : Mathieu
+Pour Détecter la fin d'une partie on utilise la méthode vérifier. Elle analyse chaque rangée, colone et puis chaque diagonale afin de déterminer s'il y à une suite de 4 jetons. Elle s'assure aussi que la grille n'est pas pleine. Cette méthode est exécuté après chaque coup. Elle prend en paramètre la colone et la rangé du dernier jeton placé et retourne un charactère qui représente le résultat : X pour l'utilisateur, O pour l'ordinateur, F pour une grille pleine, et * pour un jeu non terminer.
 
 ## Gestion de fin de parties : Alec
 l'affichage du vainquant est laissé au fils, mais l'affichage du score et la gestion de match retour est fait par le père. À la fin d'une partie le fils qui reconnais l'état finale fait apparaitre la grille et affiche le vainquant, en même temps il envoie le signal -1 à son frère pour lui informé que la session est fini et un message au père dans la forme d'un charactère pour lui informé du résultat du match. les deux processus effectuons un exit et le controlle est retourné au processus père.
