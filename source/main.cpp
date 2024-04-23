@@ -9,24 +9,24 @@
 Connect 4
 Auteurs: Alec Jones et Mathieu Richard
 
-Ce programme est un jeu de connect 4. Le jeu se joue à deux joueurs, un joueur est représenté par un 'X' et l'autre par un 'O'.
-Les joueurs alternent pour placer leur jeton dans une colonne de leur choix. Le but du jeu est d'aligner 4 jetons de sa couleur.
+Ce programme est une implémentation du jeu Connect 4 en C++. Le jeu se joue entre deux joueurs, l'un représenté par un 'X' et l'autre par un 'O'.
+Les joueurs prennent des tours pour placer leur jeton dans une colonne de leur choix. Le but du jeu est d'aligner 4 jetons de la même couleur.
 Les jetons peuvent être alignés horizontalement, verticalement ou en diagonale.
 
-Le joueur 'O' est joué par l'ordinateur. Pour maintenant l'ordinateur est très simple et joue aléatoirement.
+Le joueur 'O' est contrôlé par l'ordinateur qui utilise une fonction heuristique simple pour choisir la colonne où placer son jeton.
 
-Pour jouer, le joueur doit entrer le numéro de la colonne dans laquelle il veut placer son jeton. Les colonnes sont numérotées de 1 à 7.
+Pour jouer, le joueur entre le numéro de la colonne où il souhaite placer son jeton. Les colonnes sont numérotées de 1 à 7.
 Le jeu est affiché dans la console.
 
-Plan du programme:
-1. Initialisation du jeu
-2. Création du fils joueur utilisateur et du fils joueur ordinateur
-3. Boucle de jeu
-4. Fin du jeu
+Structure du programme :
+1. Initialisation du jeu : Le plateau de jeu est préparé et les joueurs sont initialisés.
+2. Création des processus fils : Deux processus fils sont créés, un pour le joueur utilisateur et un pour le joueur ordinateur.
+3. Boucle de jeu : Le jeu continue en boucle, les joueurs prenant des tours pour placer leurs jetons. Après chaque mouvement, l'état du jeu est vérifié.
+4. Fin du jeu : Le jeu se termine lorsqu'un joueur a aligné 4 jetons ou que le plateau de jeu est plein. Le résultat est affiché dans la console.
 
-Les fils passeront des coordonnées de la colonne dans laquelle ils veulent placer leur jeton entre eux après chaque tour.
-Après chaque modification de la grille, le jeu vérifiera si un joueur a gagné ou si la grille est pleine.
-Si c'est le cas, le jeu se terminera et le joueur gagnant sera affiché.
+Les processus fils passent les coordonnées de la colonne où ils veulent placer leur jeton entre eux après chaque tour.
+Après chaque modification de la grille, le jeu vérifie si un joueur a gagné ou si la grille est pleine.
+Si c'est le cas, le jeu se termine et le joueur gagnant (ou un match nul) est affiché.
 */
 
 int main()
@@ -37,7 +37,7 @@ int main()
 
     while (encore) 
     {
-        // Initialisation du jeu
+        // Initialisation des tubes
         int fds1[2]; // Utilisateur -> Ordinateur
         int fds2[2]; // Ordinateur -> Utilisateur
         int fds3[2]; // Utilisateur/Ordinateur -> Père
@@ -250,6 +250,8 @@ int main()
         // Le père attend la fin des deux fils
         wait(NULL);
         wait(NULL);
+
+        // Lire le résultat de la partie
         char resultat;
         read(fds3[0], &resultat, sizeof(resultat));
         if (resultat == 'X')
