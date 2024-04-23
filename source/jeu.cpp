@@ -34,6 +34,7 @@ int jeu::placer_jeton(int colonne, char jeton)
             return i; // retourne range de l'endroit place
         }
     }
+    return -1;
 }
 
 void jeu::afficher_grille(){
