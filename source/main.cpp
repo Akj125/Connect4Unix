@@ -217,10 +217,10 @@ int main()
                     exit(0);
                 }
 
-                while (true)
-                {
-                    // Choisir une colonne aléatoire pour placer le jeton
-                    colonne = rand() % 7 + 1;
+            while (true)
+            {
+                // Choisir une colonne aléatoire pour placer le jeton
+                colonne = jeuOrdinateur.selection_ia();
 
                     // Placer le jeton de l'ordinateur dans la colonne choisie et obtenir la range
                     try

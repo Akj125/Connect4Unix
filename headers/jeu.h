@@ -13,6 +13,8 @@ private:
     // 'X' représente un jeton du joueur
     // 'O' représente un jeton de l'ordinateur
     char grille[6][7];
+
+    int etats_du_jeu(char tempGrille[6][7], int colonne, int range);
 public:
     jeu();
 
@@ -25,5 +27,5 @@ public:
     // Vérifie si un joueur a gagné ou si la grille est pleine
     char verifier(int colonne, int range);
 
-    int etats_du_jeu();
+    int selection_ia();
 };
