@@ -16,4 +16,4 @@ $(OUTPUT): $(SOURCES)
 	$(CC) $(INCLUDES) -o $(OUTPUT) $(SOURCES)
 
 clean:
-	rm -f $(OUTPUT)
+	rm -f $(OUTPUT) score.txt
