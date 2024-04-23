@@ -111,107 +111,108 @@ char jeu::verifier(int colonne, int range){
 
 int jeu::etats_du_jeu(char tempGrille[6][7], int colonne, int range){
     
-    for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 7; j++) {
-                std::cout << tempGrille[i][j] << "-";
-            }
-            std::cout << std::endl;
-        }
+    // Grille pour debug 
+    // for (int i = 0; i < 6; i++) {
+    //         for (int j = 0; j < 7; j++) {
+    //             std::cout << tempGrille[i][j] << "-";
+    //         }
+    //         std::cout << std::endl;
+    //     }
 
     // initialise le score que l'IA donnera a la grille 
     int score = 0; 
 
-    // // calcule le score pour les range
-    //     for (int j = std::max(0, colonne - 3); j <= std::min(colonne, colonne + 3);  j++) {
-    //         int Jcount = 0;
-    //         int Ocount = 0;
-    //         for (int k = 0; k < 4; k++)
-    //         {
-    //             if (tempGrille[range][j + k] == 'X') {
-    //                 Jcount++;
-    //             } else if (tempGrille[range][j + k] == 'O') {
-    //                 Ocount++;
-    //             }
-    //         } 
-    //         if (Ocount == 4 || Jcount == 3){
-    //             score = 10000;
-    //         } 
-    //         else if (Jcount >= 2 && Ocount == 1){
-    //             score = 5000;
-    //         } 
-    //         else if (Ocount > 0 && Jcount == 0){
-    //             score += Ocount * Ocount;
-    //         }
-    //         else if (Jcount > 0 && Ocount == 0){
-    //             score -= Jcount * Jcount;
-    //         } 
+    // calcule le score pour les range
+        for (int j = std::max(0, colonne - 3); j <= std::min(colonne, colonne + 3);  j++) {
+            int Jcount = 0;
+            int Ocount = 0;
+            for (int k = 0; k < 4; k++)
+            {
+                if (tempGrille[range][j + k] == 'X') {
+                    Jcount++;
+                } else if (tempGrille[range][j + k] == 'O') {
+                    Ocount++;
+                }
+            } 
+            if (Ocount == 4 || Jcount == 3){
+                score = 10000;
+            } 
+            else if (Jcount >= 2 && Ocount == 1){
+                score = 5000;
+            } 
+            else if (Ocount > 0 && Jcount == 0){
+                score += Ocount * Ocount;
+            }
+            else if (Jcount > 0 && Ocount == 0){
+                score -= Jcount * Jcount;
+            } 
                 
-    //     }
+        }
 
 
-    //     //Verifie les colonnes
-    //     int Jcount = 0;
-    //     int Ocount = 0;
-    //     for (int k = 0; k < 4; k++)
-    //     {
-    //         if (tempGrille[range + 3 - k][colonne] == 'X') {
-    //             Jcount++;
-    //             Ocount = 0;
-    //         } else if (tempGrille[range + 3 - k][colonne] == 'O') {
-    //             Ocount++;
-    //             //Jcount = 0;
-    //         }
-    //     }
-
-    //     if (Ocount == 4 || Jcount == 3){
-    //         score = 10000;
-    //     } 
-    //     else if (Ocount == 3){
-    //         score += Ocount * Ocount;
-    //     } 
-    //     else if (Ocount == 2 ){
-    //         score += Ocount * Ocount;
-    //     }
-    //     else if (Ocount == 1){
-    //         score += Ocount * Ocount;
-    //     } 
-    //     
-                
-    
-
-    // // renitialise le compteur et le jeton.
-    char jeton;
-
-    //Verifie les diagonales (en bas a gauche vers en haut a droite) (3,6) (0,4)
-    std::cout << "Colonne: " << colonne << ", Range: " << range << std::endl;
-    for (int j = std::max(0, colonne - 3); j < colonne + 1; j++)
-    {
-        std::cout << "j :" << j << std::endl;
+        //Verifie les colonnes
         int Jcount = 0;
         int Ocount = 0;
         for (int k = 0; k < 4; k++)
         {
-            std::cout << "x : " << j + k << ", y: " <<  range - k + j << std:: endl;
-            if (range - k + j > 5 || range - k + j < 0){
-                continue;
-            }
-            if (tempGrille[range - k + j][j + k] == 'X') {
+            if (tempGrille[range + 3 - k][colonne] == 'X') {
                 Jcount++;
-            } else if (tempGrille[range - k + j][j + k] == 'O') {
+                Ocount = 0;
+            } else if (tempGrille[range + 3 - k][colonne] == 'O') {
                 Ocount++;
+                //Jcount = 0;
             }
         }
-        // if (Jcount > 0 && Ocount == 0){
-        //     score -= Jcount * Jcount;
-        // } 
-        // else if (Ocount > 0 && Jcount == 0){
-        //     score += Ocount * Ocount;
-        // }
-        // else if (Ocount == 4 || Jcount == 3){
-        //     score = 10000;
-        // }
-        std::cout << "Jcount: " << Jcount << ", Ocount: " << Ocount << std::endl;
-    }
+
+        if (Ocount == 4 || Jcount == 3){
+            score = 10000;
+        } 
+        else if (Ocount == 3){
+            score += Ocount * Ocount;
+        } 
+        else if (Ocount == 2 ){
+            score += Ocount * Ocount;
+        }
+        else if (Ocount == 1){
+            score += Ocount * Ocount;
+        } 
+        
+                
+    
+
+    // // renitialise le compteur et le jeton.
+    // char jeton;
+
+    // //Verifie les diagonales (en bas a gauche vers en haut a droite) (3,6) (0,4)
+    // std::cout << "Colonne: " << colonne << ", Range: " << range << std::endl;
+    // for (int j = std::max(0, colonne - 3); j < colonne + 1; j++)
+    // {
+    //     std::cout << "j :" << j << std::endl;
+    //     int Jcount = 0;
+    //     int Ocount = 0;
+    //     for (int k = 0; k < 4; k++)
+    //     {
+    //         std::cout << "x : " << j + k << ", y: " <<  range - k + j << std:: endl;
+    //         if (range - k + j > 5 || range - k + j < 0){
+    //             continue;
+    //         }
+    //         if (tempGrille[range - k + j][j + k] == 'X') {
+    //             Jcount++;
+    //         } else if (tempGrille[range - k + j][j + k] == 'O') {
+    //             Ocount++;
+    //         }
+    //     }
+    //     // if (Jcount > 0 && Ocount == 0){
+    //     //     score -= Jcount * Jcount;
+    //     // } 
+    //     // else if (Ocount > 0 && Jcount == 0){
+    //     //     score += Ocount * Ocount;
+    //     // }
+    //     // else if (Ocount == 4 || Jcount == 3){
+    //     //     score = 10000;
+    //     // }
+    //     std::cout << "Jcount: " << Jcount << ", Ocount: " << Ocount << std::endl;
+    // }
 
 
 
@@ -260,7 +261,7 @@ int jeu::selection_ia(){
         }
 
         if (tempGrille[0][colonne] != '*'){
-             std::cout << "skiped" << std::endl;
+             //std::cout << "skiped" << std::endl;
              continue;
         }
 
@@ -276,7 +277,7 @@ int jeu::selection_ia(){
                 
 
         int temp_score = etats_du_jeu(tempGrille, colonne, range);
-        std::cout << temp_score << std::endl;
+        //std::cout << temp_score << std::endl;
         if (temp_score > meil_score) {
             
             meil_score = temp_score;
@@ -291,7 +292,7 @@ int jeu::selection_ia(){
     if (meil_score == 0) {
         meil_col = rand() % 7 + 1;
     }
-    std::cout << "Score: " << meil_score << ", Best_Colonne : " << meil_col << std::endl;
+    //std::cout << "Score: " << meil_score << ", Best_Colonne : " << meil_col << std::endl;
     return meil_col;
 
 
