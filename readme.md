@@ -72,7 +72,9 @@ if (resultat == 'O')
 Le père, maintenant en controlle, vérifie le résultat et change les scores en conséquant. Il fait un sauvegarde du score avant de demandé à l'utilisateur s'il aimerais continuer, si oui une nouvelle partie est débuté.
 
 ## Intelligence de l'ordinateur : Mathieu
+Pour la section de l'IA, on se sert d’un algorithme heuristique pour que l’IA soit capable de savoir où placer son jeton. Pour ce faire, on commence par générer une copie de la grille et on y place un jeton dans la première colonne. Ensuite, nous évaluons cette nouvelle grille de façon à vérifier l'impact de ce nouveau jeton sur les chances à l’IA de gagner. On calcule l'impact sur les lignes diagonales horizontale et verticale affectées par ce jeton et l'on donne un score total à la grille. Ceci est répété pour tous les jetons possibles et l’on sélectionne la grille avec le plus haut score. La grille est ensuite retournée aux joueurs de façon qu'il peut jouer son tour. 
 
+A noter qu'en ce moment l'algorithme heuristique ne fonctionne pas pour la diagonale. Cependant il en est très proche.
 
 
 ###### Plus de détails sur qui à fait quoi dans les messages commit
